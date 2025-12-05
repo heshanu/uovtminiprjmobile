@@ -43,7 +43,7 @@ export default function Home() {
       </TouchableOpacity>
 
       {/* Login Button */}
-      {state.isLoggedIn? <TouchableOpacity
+      {!state.isLoggedIn? <TouchableOpacity
         style={styles.button}
         onPress={() => router.replace("/(auth)/login")}
       >
@@ -61,7 +61,7 @@ export default function Home() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({  
   container: {
     flex: 1,
     backgroundColor: "#f4f6fc",

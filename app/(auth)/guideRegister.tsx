@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { View, TextInput,StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Snackbar, Provider as PaperProvider } from 'react-native-paper';
 
@@ -69,8 +69,18 @@ export default function GuideRegister() {
           secureTextEntry
           style={styles.input}
         />
-        <Button title={loading ? 'Logging in...' : 'Login'} onPress={ handleGuideRegister} 
-        disabled={loading} />
+        <TouchableOpacity
+  style={styles.box}
+  onPress={handleGuideRegister}
+  disabled={loading}
+  activeOpacity={0.8}
+>
+  {loading ? (
+    <ActivityIndicator color="#fff" />
+  ) : (
+    <Text style={styles.box}>Register</Text>
+  )}
+</TouchableOpacity>
       </View>
 
       <Snackbar
@@ -87,4 +97,16 @@ export default function GuideRegister() {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 20 },
   input: { borderWidth: 1, padding: 10, marginBottom: 15, borderRadius: 5 },
+   box: {
+    backgroundColor: "#4f46e5",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    opacity: 1,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
 });

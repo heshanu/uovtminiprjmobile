@@ -1,41 +1,42 @@
-import React, { createContext, useReducer, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, ReactNode } from "react";
 
-// Define the state type
-type AuthState = {
-  isLoggedIn: boolean;
+type State = {
+  user: null | {
+    id: string;
+    username: string;
+  };
+  isAuthenticated: boolean;
 };
 
-// Define the action type
-type AuthAction = { type: 'LOGIN' | 'LOGOUT' };
+type Action =
+  | { type: "LOGIN"; payload: State["user"] }
+  | { type: "LOGOUT" };
 
-// Initial state
-const initialState: AuthState = {
-  isLoggedIn: false,
+const initialState: State = {
+  user: null,
+  isAuthenticated: false,
 };
 
-// Create context
-const AuthContext = createContext<{
-  state: AuthState;
-  dispatch: React.Dispatch<AuthAction>;
-}>({
-  state: initialState,
-  dispatch: () => null,
-});
-
-// Reducer function
-const authReducer = (state: AuthState, action: AuthAction): AuthState => {
+function authReducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'LOGIN':
-      return { ...state, isLoggedIn: true };
-    case 'LOGOUT':
-      return { ...state, isLoggedIn: false };
+    case "LOGIN":
+      return {
+        user: action.payload,
+        isAuthenticated: true,
+      };
+    case "LOGOUT":
+      return {
+        user: null,
+        isAuthenticated: false,
+      };
     default:
       return state;
   }
-};
+}
 
-// AuthProvider component
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+const AuthContext = createContext<any>(null);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   return (
@@ -43,7 +44,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
-// Custom hook to use auth context
-export const useAuth = () => useContext(AuthContext);
+export function useAuth() {
+  return useContext(AuthContext);
+}

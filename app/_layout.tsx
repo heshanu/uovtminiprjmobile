@@ -4,7 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AuthProvider } from '../context/AuthContext';
-
+import { CustomerProvider } from '@/context';
+import { SafeAreaView, ScrollView } from "react-native";
 export const unstable_settings = {
   anchor: '(tabs)',
 };
@@ -14,6 +15,8 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
+    <CustomerProvider>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f3f4f6" }}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -22,6 +25,8 @@ export default function RootLayout() {
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
+      </SafeAreaView>
+    </CustomerProvider>
     </AuthProvider>
   );
 }
