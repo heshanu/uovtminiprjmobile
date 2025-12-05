@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
-import { View, TextInput, Button, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import { useRouter } from "expo-router";
-import { Snackbar, Provider as PaperProvider } from "react-native-paper";
+import {
+  Snackbar,
+  Provider as PaperProvider,
+  Text,
+  TextInput,
+  Button,
+  ActivityIndicator,
+} from "react-native-paper";
 import { useAuth } from "../../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -13,41 +20,16 @@ export default function Login() {
 
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
-  const { state, dispatch } = useAuth();
+
+  const { dispatch } = useAuth();
 
   useEffect(() => {
-    // Auto-login if credentials exist
     const tryAutoLogin = async () => {
-      const creds = await getCredentials();
-      if (creds?.username) {
-        setUserName(creds.username);
-        router.replace("/dashboard");
-      }
-    };
-    tryAutoLogin();
-  }, []);
-
-  const storeCredentials = async (username: string, password: string) => {
-    try {
-      await AsyncStorage.setItem("@username", username);
-      // Ideally, store token instead of password
-      await AsyncStorage.setItem("@password", password); 
-      console.log("Credentials saved");
-    } catch (e) {
-      console.log("Failed to save credentials", e);
-    }
-  };
-
-  const getCredentials = async () => {
-    try {
       const username = await AsyncStorage.getItem("@username");
-      const password = await AsyncStorage.getItem("@password");
-      return { username, password };
-    } catch (e) {
-      console.log("Failed to load credentials", e);
-      return null;
-    }
-  };
+      if (username) router.replace("/dashboard");
+    };
+  //  tryAutoLogin();
+  }, [username]);
 
   const showSnackbar = (msg: string) => {
     setSnackbarMsg(msg);
@@ -77,15 +59,14 @@ export default function Login() {
           payload: { id: "1", username },
         });
 
-        await storeCredentials(username, password);
+        await AsyncStorage.setItem("@username", username);
 
-        showSnackbar("Login Successful!");
-        setTimeout(() => router.replace("/dashboard"), 1000);
+        showSnackbar("Login successful!");
+        setTimeout(() => router.replace("/dashboard"), 800);
       } else {
         showSnackbar("Invalid credentials");
       }
-    } catch (error) {
-      console.error(error);
+    } catch {
       showSnackbar("Login failed. Try again!");
     } finally {
       setLoading(false);
@@ -94,58 +75,97 @@ export default function Login() {
 
   return (
     <PaperProvider>
-      <Text style={{ fontSize: 18, textAlign: "center", marginTop: 20 }}>
-        Welcome to GuideBuddy
-      </Text>
-      <Text
-        style={{
-          fontSize: 24,
-          fontWeight: "bold",
-          textAlign: "center",
-          marginTop: 50,
-        }}
+      <KeyboardAvoidingView
+        style={styles.wrapper}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        Login Page
-      </Text>
+        <View style={styles.card}>
+          <Text style={styles.title}>Welcome Back 👋</Text>
+          <Text style={styles.subtitle}>Login to GuideBuddy</Text>
 
-      <View style={styles.container}>
-        <TextInput
-          placeholder="UserName Here"
-          value={username}
-          onChangeText={setUserName}
-          autoCapitalize="none"
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          style={styles.input}
-        />
-        <Button
-          title={loading ? "Logging in..." : "Login"}
-          onPress={handleLogin}
-          disabled={loading}
-        />
-      </View>
+          <TextInput
+            label="Username"
+            value={username}
+            onChangeText={setUserName}
+            mode="outlined"
+            left={<TextInput.Icon icon="account" />}
+            style={styles.input}
+          />
 
-      <Snackbar
-        visible={snackbarVisible}
-        onDismiss={() => setSnackbarVisible(false)}
-        duration={3000}
-      >
-        {snackbarMsg}
-      </Snackbar>
-      <Button
-        title="Go to Signup"
-        onPress={() => router.replace("/(auth)/guideRegister")}
-      />
+          <TextInput
+            label="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            mode="outlined"
+            left={<TextInput.Icon icon="lock" />}
+            style={styles.input}
+          />
+
+          <Button
+          mode="contained" 
+            onPress={handleLogin}
+            disabled={loading}
+            style={{...styles.loginBtn, backgroundColor: loading ? "#9ca3af" : "#3b82f6"}}
+            
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              "Login"
+            )}
+          </Button>
+
+          <Button
+            mode="text"
+            onPress={() => router.replace("/(auth)/guideRegister")}
+          >
+            Create new account
+          </Button>
+        </View>
+
+        <Snackbar
+          visible={snackbarVisible}
+          onDismiss={() => setSnackbarVisible(false)}
+        >
+          {snackbarMsg}
+        </Snackbar>
+      </KeyboardAvoidingView>
     </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  input: { borderWidth: 1, padding: 10, marginBottom: 15, borderRadius: 5 },
+  wrapper: {
+    flex: 1,
+    backgroundColor: "#eef2ff",
+    justifyContent: "center",
+    padding: 20,
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 24,
+    elevation: 5,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 4,
+    color: "#312e81",
+  },
+  subtitle: {
+    textAlign: "center",
+    color: "#6b7280",
+    marginBottom: 20,
+  },
+  input: {
+    marginBottom: 14,
+  },
+  loginBtn: {
+    marginTop: 10,
+    borderRadius: 10,
+    color: "blue",
+  },
 });
