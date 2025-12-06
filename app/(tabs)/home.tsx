@@ -1,137 +1,218 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+} from "react-native";
 import { router } from "expo-router";
-import {useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
+import { SafeAreaView } from "react-native";
 
 export default function Home() {
-   const { state, dispatch } = useAuth();
+  const { state } = useAuth();
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-
-      {/* Header */}
-      <Text style={styles.header}>Welcome</Text>
+      <SafeAreaView>
+      {/* Top Header */}
+      <View style={styles.headerWrap}>
+        <Text style={styles.welcome}>Hello 👋</Text>
+        <Text style={styles.title}>GuideBuddy</Text>
+        <Text style={styles.subtitle}>Plan • Explore • Enjoy</Text>
+      </View>
 
       {/* Featured */}
-      <Text style={styles.section}>Featured</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-
-        <View style={styles.card}>
-          <Image source={require("../../assets/images/card1.jpg")} style={styles.image} />
-          <Text style={styles.cardTitle}>Travel Planner</Text>
-          <Text style={styles.cardDesc}>Plan trips easily</Text>
-        </View>
-
-        <View style={styles.card}>
-          <Image source={require("../../assets/images/card2.jpg")} style={styles.image} />
-          <Text style={styles.cardTitle}>Task Manager</Text>
-          <Text style={styles.cardDesc}>Stay productive</Text>
-        </View>
-
-        <View style={styles.card}>
-          <Image source={require("../../assets/images/card3.jpg")} style={styles.image} />
-          <Text style={styles.cardTitle}>Fitness Tracker</Text>
-          <Text style={styles.cardDesc}>Track progress</Text>
-        </View>
-
+      <Text style={styles.sectionTitle}>Featured</Text>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={260}
+        decelerationRate="fast"
+      >
+        {[
+          {
+            title: "Travel Planner",
+            desc: "Smart trip planning",
+            img: require("../../assets/images/card1.jpg"),
+          },
+          {
+            title: "Task Manager",
+            desc: "Organize your day",
+            img: require("../../assets/images/card2.jpg"),
+          },
+          {
+            title: "Fitness Tracker",
+            desc: "Track your goals",
+            img: require("../../assets/images/card3.jpg"),
+          },
+        ].map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.featureCard}
+            activeOpacity={0.85}
+          >
+            <Image source={item.img} style={styles.featureImage} />
+            <View style={styles.featureText}>
+              <Text style={styles.featureTitle}>{item.title}</Text>
+              <Text style={styles.featureDesc}>{item.desc}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
 
-      {/* Quick Actions */}
-      <Text style={styles.section}>Quick Actions</Text>
+      {/* Actions */}
+      <Text style={styles.sectionTitle}>Quick Actions</Text>
 
-      <TouchableOpacity style={styles.simpleCard}>
-        <Text style={styles.simpleText}>🌍 Explore Places</Text>
+      <TouchableOpacity style={styles.actionCard} activeOpacity={0.75}>
+        <Text style={styles.actionEmoji}>🌍</Text>
+        <Text style={styles.actionText}>Explore Places</Text>
       </TouchableOpacity>
 
-      {/* Login Button */}
-      {!state.isLoggedIn? <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.replace("/(auth)/login")}
-      >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>:
-       <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.replace("/(auth)/guideRegister")}
-      >
-        <Text style={styles.buttonText}>Register</Text>
+      <TouchableOpacity style={styles.actionCard} activeOpacity={0.75}>
+        <Text style={styles.actionEmoji}>🧭</Text>
+        <Text style={styles.actionText}>Plan a Trip</Text>
       </TouchableOpacity>
-      }
 
+      {/* Auth CTA */}
+      {!state.isLoggedIn ? (
+        <TouchableOpacity
+          style={styles.primaryButton}
+          onPress={() => router.replace("/(auth)/login")}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.primaryText}>Login</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={() => router.replace("/(auth)/guideRegister")}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.primaryText}>Become a Guide</Text>
+        </TouchableOpacity>
+      )}
+      </SafeAreaView>
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({  
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f6fc",
+    backgroundColor: "#f7f9ff",
     padding: 20,
   },
 
-  header: {
-    fontSize: 26,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-
-  section: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginVertical: 10,
-  },
-
-  card: {
-    width: 220,
-    backgroundColor: "#fff",
-    borderRadius: 14,
-    marginRight: 15,
-    overflow: "hidden",
-    elevation: 3,
-  },
-
-  image: {
-    width: "100%",
-    height: 120,
-  },
-
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 8,
-    paddingHorizontal: 10,
-  },
-
-  cardDesc: {
-    fontSize: 13,
-    color: "#777",
-    paddingHorizontal: 10,
-    paddingBottom: 10,
-  },
-
-  simpleCard: {
-    backgroundColor: "#fff",
-    padding: 18,
-    borderRadius: 12,
-    marginBottom: 12,
-    elevation: 2,
-  },
-
-  simpleText: {
-    fontSize: 16,
-  },
-
-  button: {
-    backgroundColor: "#2563eb",
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 20,
+  headerWrap: {
     marginBottom: 30,
   },
 
-  buttonText: {
-    color: "#fff",
+  welcome: {
     fontSize: 16,
-    textAlign: "center",
+    color: "#6b7280",
+  },
+
+  title: {
+    fontSize: 34,
+    fontWeight: "800",
+    color: "#111827",
+  },
+
+  subtitle: {
+    fontSize: 14,
+    color: "#9ca3af",
+    marginTop: 4,
+  },
+
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#111827",
+    marginVertical: 15,
+  },
+
+  /* Featured Cards */
+  featureCard: {
+    width: 250,
+    borderRadius: 20,
+    backgroundColor: "#fff",
+    marginRight: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 6,
+    overflow: "hidden",
+  },
+
+  featureImage: {
+    width: "100%",
+    height: 150,
+  },
+
+  featureText: {
+    padding: 14,
+  },
+
+  featureTitle: {
+    fontSize: 17,
+    fontWeight: "700",
+  },
+
+  featureDesc: {
+    fontSize: 13,
+    color: "#6b7280",
+    marginTop: 3,
+  },
+
+  /* Action Cards */
+  actionCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 18,
+    borderRadius: 16,
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+
+  actionEmoji: {
+    fontSize: 22,
+    marginRight: 14,
+  },
+
+  actionText: {
+    fontSize: 16,
     fontWeight: "600",
+  },
+
+  /* Buttons */
+  primaryButton: {
+    backgroundColor: "#2563eb",
+    padding: 18,
+    borderRadius: 16,
+    marginTop: 25,
+    marginBottom: 40,
+  },
+
+  secondaryButton: {
+    backgroundColor: "#16a34a",
+    padding: 18,
+    borderRadius: 16,
+    marginTop: 25,
+    marginBottom: 40,
+  },
+
+  primaryText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "700",
   },
 });
