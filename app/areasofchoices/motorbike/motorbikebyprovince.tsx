@@ -8,24 +8,25 @@ import {
 } from "react-native";
 import { List, Dialog, Button, Portal } from "react-native-paper";
 import { router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Areas() {
   const [visible, setVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<any>(null);
 
   const tasks = [
-    { id: "1", title: "Mode of Travel", icon: "car", color: "#38bdf8", path: "areasofchoices/modeoftravel" },
-    { id: "2", title: "Hotel Accommodation", icon: "home", color: "#f97316", path: "/methods/hotel" },
-    { id: "3", title: "Food Cuisine", icon: "food", color: "#22c55e", path: "/methods/food" },
-    { id: "4", title: "Beverages", icon: "cup", color: "#a855f7", path: "/methods/beverages" },
-    { id: "5", title: "Host Areas in Sri Lanka", icon: "map-marker", color: "#ef4444", path: "/methods/areas" },
-    { id: "6", title: "Customer Locations", icon: "map", color: "#14b8a6", path: "/methods/location" },
-    { id: "7", title: "Total Trip Calculation", icon: "calculator", color: "#6366f1", path: "/methods/calculation" },
+    { id: "1", title: "Galle", icon: "motorbike", color: "#38bdf8", path: "/areasofchoices/motorbike/province/southern/gallebike" },
+    { id: "2", title: "Hikkaduwa", icon: "motorbike", color: "#f97316", path: "/areasofchoices/hikkaduwa" },
+    { id: "3", title: "Matara", icon: "motorbike", color: "#22c55e", path: "/areasofchoices/matara" },
+    { id: "4", title: "Nuwara Eliya", icon: "motorbike", color: "#a855f7", path: "/areasofchoices/nuwara" },
+    { id: "5", title: "Jaffna", icon: "motorbike", color: "#ef4444", path: "/areasofchoices/jaffna" },
+    { id: "6", title: "Gampaha", icon: "motorbike", color: "#14b8a6", path: "/areasofchoices/gampaha" },
   ];
 
   const openDialog = (task: any) => {
     setSelectedTask(task);
     setVisible(true);
+    router.push(task.path);
   };
 
   const closeDialog = () => {
@@ -33,18 +34,23 @@ export default function Areas() {
     setSelectedTask(null);
   };
 
-  const confirmNavigation = () => {
+  const proceed = () => {
     if (selectedTask?.path) {
       router.push(selectedTask.path);
     }
     closeDialog();
   };
 
+  const navigateTo = (path: any) => {
+    router.push(path);
+  }
+
   return (
+     <SafeAreaView>
     <ScrollView contentContainerStyle={styles.container}>
       <List.Section>
         <List.Accordion
-          title="Choose Your Travel Preferences"
+          title="Choose Your Destination"
           titleStyle={styles.accordionTitle}
           style={styles.accordion}
           left={(props) => (
@@ -68,13 +74,14 @@ export default function Areas() {
                     <List.Icon {...props} icon="chevron-right" color="#9ca3af" />
                   )}
                 />
+                
               </View>
             </TouchableOpacity>
           ))}
         </List.Accordion>
       </List.Section>
 
-      {/* ✅ Dialog OUTSIDE map */}
+      {/* ✅ ONE dialog only */}
       <Portal>
         <Dialog visible={visible} onDismiss={closeDialog}>
           <Dialog.Title>Confirmation</Dialog.Title>
@@ -89,11 +96,12 @@ export default function Areas() {
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={closeDialog}>Cancel</Button>
-            <Button onPress={confirmNavigation}>OK</Button>
+            <Button onPress={proceed}>OK</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
     </ScrollView>
+  </SafeAreaView>
   );
 }
 

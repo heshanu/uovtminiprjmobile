@@ -28,7 +28,7 @@ export default function Login() {
       const username = await AsyncStorage.getItem("@username");
       if (username) router.replace("/dashboard");
     };
-  //  tryAutoLogin();
+    tryAutoLogin();
   }, [username]);
 
   const showSnackbar = (msg: string) => {

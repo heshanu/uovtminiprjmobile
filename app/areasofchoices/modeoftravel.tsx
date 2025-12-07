@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { List } from "react-native-paper";
 import { ScrollView, TouchableOpacity, StyleSheet, View } from "react-native";
+import { router } from "expo-router";
 
 export default function ModeofTravel( customer: any) {
 
   const [tasks] = useState([
-    { id: "1", title: "Motorbike", icon: "motorbike", color: "#38bdf8",path:'./methods/mootorbike' },
+    { id: "1", title: "Motorbike", icon: "motorbike", color: "#38bdf8",path:'/areasofchoices/motorbike/motorbikebyprovince' },
     { id: "2", title: "Bicycle", icon: "bike", color: "#f97316" },
     { id: "3", title: "Car", icon: "car", color: "#22c55e" },
     { id: "4", title: "Van", icon: "van", color: "#a855f7" },
@@ -13,11 +14,18 @@ export default function ModeofTravel( customer: any) {
     { id: "6", title: "Train", icon: "train", color: "#14b8a6" },
   ]);
 
+  const navigateTo = (path:any) => {
+      // Navigation logic would go here
+      console.log("Navigating to:", path);
+      router.push(path);
+    }
+  
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <List.Section>
         <List.Accordion
-          title=""
+          title="Type preferences for Mode of Travel"
           titleStyle={styles.accordionTitle}
           style={styles.accordion}
           left={(props) => (
@@ -28,7 +36,7 @@ export default function ModeofTravel( customer: any) {
             <TouchableOpacity
               key={task.id}
               activeOpacity={0.7}
-              onPress={() => console.log(task.title)}
+              onPress={() => navigateTo(task.path)}
             >
               <View style={[styles.itemCard, { borderLeftColor: task.color }]}>
                 <List.Item
