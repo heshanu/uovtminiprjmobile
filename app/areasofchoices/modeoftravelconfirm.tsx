@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { List } from "react-native-paper";
+import { Button, List } from "react-native-paper";
 import { ScrollView, TouchableOpacity, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import ModeofTravel from "./modeoftravel";
@@ -15,19 +15,14 @@ export default function ModeofTravelConfirm(  path: any ) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity activeOpacity={0.7} onPress={navigateTo}>
-      <List.Section>
-        <List.Accordion
-          title=""
-          titleStyle={styles.accordionTitle}
-          style={styles.accordion}
-          left={(props) => (
-            <List.Icon {...props} icon="map" color="#4f46e5" />
-          )}
-        >
+      
         
-        < ModeofTravel customer={path} />
-        </List.Accordion>
-      </List.Section>
+      <View style={[styles.itemCard, { borderLeftColor: "#38bdf8" }]}>
+        <Button mode="contained" onPress={navigateTo} style={{backgroundColor: "#38bdf8"}}>
+          Confirm Mode of Travel
+        </Button>
+      </View>
+      
       </TouchableOpacity>
     </ScrollView>
   );
