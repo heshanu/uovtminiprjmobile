@@ -6,10 +6,9 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import { router } from "expo-router";
 import { useAuth } from "../../context/AuthContext";
 import { SafeAreaView } from "react-native";
-
+import { Stack, router } from "expo-router";
 export default function Home() {
   const { state } = useAuth();
 
@@ -18,6 +17,13 @@ export default function Home() {
       <SafeAreaView>
       {/* Top Header */}
       <View style={styles.headerWrap}>
+         <Stack.Screen
+        options={{
+          headerLeft: () => null, // hide back button on home
+          title: "Dashboard",
+        }}
+      />
+          {/* Set Stack screen options here */}
         <Text style={styles.welcome}>Hello 👋</Text>
         <Text style={styles.title}>GuideBuddy</Text>
         <Text style={styles.subtitle}>Plan • Explore • Enjoy</Text>
