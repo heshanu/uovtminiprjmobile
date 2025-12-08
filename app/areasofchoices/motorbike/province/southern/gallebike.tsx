@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { navigate } from "expo-router/build/global-state/routing";
 import { router } from "expo-router";
 import { List, Dialog, Portal,Button } from "react-native-paper";
+import {useOrder} from "../../../../../context/OrderContext"
 const INITIAL_DATA:BikeData[] = [
   {
     id: "1",
@@ -44,7 +45,8 @@ export default function CardList() {
   const [data, setData] = useState(INITIAL_DATA);
   const [isVisible,setIsVisible]=useState(false);
   const [selectedVehicle,setSelectedVehicle]=useState<any>(null);
-
+  const {state,dispatch}=useOrder();
+  
   const increment = (id: string) => {
     setData(prev =>
       prev.map(item =>
@@ -83,8 +85,28 @@ export default function CardList() {
     };
 
 const bookNow=(item:BikeData)=>{
-  openDialog;
-  proceed;
+  openDialog(item);
+  const vehicle={
+      vehicleId:item.id,
+    name:item.location,
+    quantity:item.count,
+    priceperhour:item.priceperhour,
+    type:"Motorbike",
+    status: "Avaliable" as const
+  }
+  dispatch({
+    type:"ADD_VEHICLE_ITEM",
+    payload:vehicle
+  })
+  //proceed();
+  
+}
+
+const  removeNow=(id:string)=>{
+ dispatch({
+    type:"REMOVE_VEHICLE_ITEM",
+    payload:{travelId:id}
+  }) 
 }
 
   return (
@@ -218,17 +240,39 @@ const bookNow=(item:BikeData)=>{
         </View>
 
         {/* Book button */}
-        <TouchableOpacity
-          style={styles.bookButton}
-           onPress={() => bookNow(item)}
-        >
-          <MaterialCommunityIcons name="book" size={20} color="#fff" />
-          <Text style={styles.bookText}>Book Now</Text>
-        </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+      {/* Book Now Button */}
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: "#3498db" }]}
+        onPress={() => bookNow(item)}
+      >
+        <MaterialCommunityIcons name="book" size={20} color="#fff" />
+        <Text style={styles.buttonText}>Book Now</Text>
+      </TouchableOpacity>
+
+      {/* Remove Button */}
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: "#e74c3c" }]}
+        onPress={() => removeNow(item.id)}
+      >
+        <MaterialCommunityIcons name="delete" size={20} color="#fff" />
+        <Text style={styles.buttonText}>Remove</Text>
+      </TouchableOpacity>
+    </View>
       </View>
     </View>
   )}
 />   
+{state.modeoftraveList && 
+<View>
+  {state.modeoftraveList.map((item, index) => (
+    <>
+    <Text key={index}>{item.vehicleId}</Text> 
+    <Text key={index}>{item.type}</Text> 
+    </>
+  ))}
+</View>
+}
     </SafeAreaView>
   );
 }
@@ -455,5 +499,24 @@ okText: {
   fontSize: 14,
   fontWeight: "700",
 },
-
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between", // space between buttons
+    marginVertical: 10,
+    gap: 10, // works on RN 0.71+, else use margin on buttons
+  },
+  button: {
+    flex: 1, // buttons take equal width
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    marginLeft: 5, // spacing between icon and text
+    fontWeight: "600",
+  },
 });

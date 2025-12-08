@@ -12,7 +12,7 @@ export interface ModeofTravel{
     quantity:number;
     priceperhour:number;
     type:string;
-     status: "Avaliable" | "Unavliable";
+    status: "Avaliable" | "Unavliable";
 }
 
 export interface OrderItem {
