@@ -2,8 +2,11 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+
 import { AuthProvider } from '../context/AuthContext';
 import { CustomerProvider } from '@/context';
+import { OrderProvider } from '@/context';
+
 import { SafeAreaView, TouchableOpacity } from "react-native";
 import { Stack, Slot, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -27,6 +30,7 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <CustomerProvider>
+<OrderProvider>
         <PaperProvider theme={paperTheme}>
           <SafeAreaProvider style={{ flex: 1, backgroundColor: "#f3f4f6" }}>
             <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
@@ -48,6 +52,7 @@ export default function RootLayout() {
             </ThemeProvider>
           </SafeAreaProvider>
         </PaperProvider>
+        </OrderProvider>
       </CustomerProvider>
     </AuthProvider>
   );
