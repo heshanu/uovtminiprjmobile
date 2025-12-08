@@ -19,7 +19,7 @@ export default function Areas() {
     { id: "2", title: "Hikkaduwa", icon: "motorbike", color: "#3674B5", path: "areasofchoices/motorbike/province/southern/hikkaduwabike"},
     { id: "3", title: "Matara", icon: "motorbike", color: "#3674B5", path: "areasofchoices/motorbike/province/southern/matarabike"},
     { id: "4", title: "Nuwara Eliya", icon: "motorbike", color: "#3674B5", path: "areasofchoices/motorbike/province/central/nuwarabike" },
-    { id: "5", title: "Jaffna", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/jaffna" },
+    { id: "5", title: "Jaffna", icon: "motorbike", color: "#3674B5", path: "areasofchoices/motorbike/province/north/jaffnabike" },
     { id: "6", title: "Gampaha", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/gampaha" },
   ];
 
