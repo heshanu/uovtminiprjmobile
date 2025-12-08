@@ -26,7 +26,6 @@ export default function Areas() {
   const openDialog = (task: any) => {
     setSelectedTask(task);
     setVisible(true);
-    router.push(task.path);
   };
 
   const closeDialog = () => {
@@ -40,10 +39,6 @@ export default function Areas() {
     }
     closeDialog();
   };
-
-  const navigateTo = (path: any) => {
-    router.push(path);
-  }
 
   return (
      <SafeAreaView>
@@ -81,7 +76,6 @@ export default function Areas() {
         </List.Accordion>
       </List.Section>
 
-      {/* ✅ ONE dialog only */}
       <Portal>
         <Dialog visible={visible} onDismiss={closeDialog}>
           <Dialog.Title>Confirmation</Dialog.Title>
