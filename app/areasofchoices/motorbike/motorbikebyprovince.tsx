@@ -15,12 +15,13 @@ export default function Areas() {
   const [selectedTask, setSelectedTask] = useState<any>(null);
 
   const tasks = [
-    { id: "1", title: "Galle", icon: "motorbike", color: "#38bdf8", path: "/areasofchoices/motorbike/province/southern/gallebike" },
-    { id: "2", title: "Hikkaduwa", icon: "motorbike", color: "#f97316", path: "/areasofchoices/hikkaduwa" },
-    { id: "3", title: "Matara", icon: "motorbike", color: "#22c55e", path: "/areasofchoices/matara" },
-    { id: "4", title: "Nuwara Eliya", icon: "motorbike", color: "#a855f7", path: "/areasofchoices/nuwara" },
-    { id: "5", title: "Jaffna", icon: "motorbike", color: "#ef4444", path: "/areasofchoices/jaffna" },
-    { id: "6", title: "Gampaha", icon: "motorbike", color: "#14b8a6", path: "/areasofchoices/gampaha" },
+    { id: "1", title: "Galle", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/motorbike/province/southern/gallebike" },
+    { id: "2", title: "Hikkaduwa", icon: "motorbike", color: "#3674B5", path: "areasofchoices/motorbike/province/southern/hikkaduwabike"},
+    { id: "1", title: "Galle", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/motorbike/province/southern/gallebike" },
+    { id: "3", title: "Matara", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/matara" },
+    { id: "4", title: "Nuwara Eliya", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/nuwara" },
+    { id: "5", title: "Jaffna", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/jaffna" },
+    { id: "6", title: "Gampaha", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/gampaha" },
   ];
 
   const openDialog = (task: any) => {

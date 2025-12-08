@@ -6,12 +6,12 @@ import { router } from "expo-router";
 export default function ModeofTravel( customer: any) {
 
   const [tasks] = useState([
-    { id: "1", title: "Motorbike", icon: "motorbike", color: "#38bdf8",path:'/areasofchoices/motorbike/motorbikebyprovince' },
-    { id: "2", title: "Bicycle", icon: "bike", color: "#f97316" },
-    { id: "3", title: "Car", icon: "car", color: "#22c55e" },
-    { id: "4", title: "Van", icon: "van", color: "#a855f7" },
-    { id: "5", title: "Tuktuk", icon: "rickshaw", color: "#ef4444" },
-    { id: "6", title: "Train", icon: "train", color: "#14b8a6" },
+    { id: "1", title: "Motorbike", icon: "motorbike", color: "#3674B5",path:'/areasofchoices/motorbike/motorbikebyprovince' },
+    { id: "2", title: "Bicycle", icon: "bike", color: "#3674B5" },
+    { id: "3", title: "Car", icon: "car", color: "#3674B5" },
+    { id: "4", title: "Van", icon: "van", color: "#3674B5" },
+    { id: "5", title: "Tuktuk", icon: "rickshaw", color: "#3674B5" },
+    { id: "6", title: "Train", icon: "train", color: "#3674B5" },
   ]);
 
   const navigateTo = (path:any) => {
