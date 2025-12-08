@@ -17,7 +17,6 @@ export default function Areas() {
   const tasks = [
     { id: "1", title: "Galle", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/motorbike/province/southern/gallebike" },
     { id: "2", title: "Hikkaduwa", icon: "motorbike", color: "#3674B5", path: "areasofchoices/motorbike/province/southern/hikkaduwabike"},
-    { id: "1", title: "Galle", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/motorbike/province/southern/gallebike" },
     { id: "3", title: "Matara", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/matara" },
     { id: "4", title: "Nuwara Eliya", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/nuwara" },
     { id: "5", title: "Jaffna", icon: "motorbike", color: "#3674B5", path: "/areasofchoices/jaffna" },
