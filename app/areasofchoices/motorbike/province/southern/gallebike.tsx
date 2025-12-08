@@ -82,6 +82,11 @@ export default function CardList() {
       closeDialog();
     };
 
+const bookNow=(item:BikeData)=>{
+  openDialog;
+  proceed;
+}
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -191,7 +196,7 @@ export default function CardList() {
         <View style={styles.counterContainer}>
           <TouchableOpacity onPress={() => decrement(item.id)}>
             <LinearGradient
-              colors={["#3674B5", "#F5F0CD"]}
+              colors={["#FADA7A", "#F5F0CD"]}
               style={styles.counterButton}
             >
               <Text style={styles.counterText}>-</Text>
@@ -204,7 +209,7 @@ export default function CardList() {
 
           <TouchableOpacity onPress={() => increment(item.id)}>
             <LinearGradient
-               colors={["#3674B5", "#F5F0CD"]}
+               colors={["#FADA7A", "#F5F0CD"]}
               style={styles.counterButton}
             >
               <Text style={styles.counterText}>+</Text>
@@ -215,7 +220,7 @@ export default function CardList() {
         {/* Book button */}
         <TouchableOpacity
           style={styles.bookButton}
-          // onPress={() => item.path && router.push(item.path)}
+           onPress={() => bookNow(item)}
         >
           <MaterialCommunityIcons name="book" size={20} color="#fff" />
           <Text style={styles.bookText}>Book Now</Text>
@@ -247,9 +252,10 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   image: {
+    padding:4,
     width: "100%",
     height: 200,
-    resizeMode:"cover"
+    resizeMode:"contain",
   },
   cardContent: {
     padding: 16,
@@ -289,9 +295,10 @@ const styles = StyleSheet.create({
     width: 55,
     alignItems: "center",
     justifyContent: "center",
+    color:"black"
   },
   counterText: {
-    color: "#fff",
+    color: "black",
     fontSize: 24,
     fontWeight: "bold",
   },
